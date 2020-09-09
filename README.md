@@ -31,12 +31,12 @@ STM32F4 最多有 2 个 DMA 控制器（DMA1 和 DMA2），共 16 个数据流�
 
 其中，数据流的多通道选择，是通过 DMA_SxCR 寄存器控制的，如图1所示：
 
-<p align="center"><img src="Pictures/图1 通道选择.png" width="90%"\></p>
+<p align="center"><img src="Pictures/1.png" width="90%"\></p>
 <p align="center" style="color:orange; font-size:14px; color: #999; " >图1 通道选择</p>
 
 上图可以看出，DMA_SxCR 控制数据流到底使用哪一个通道，每个数据流有 8 个通道可供选择，但每次只能选择其中一个通道进行 DMA 传输，DMA2 的各数据流通道映射表，如表 1 所示
 
-<p align="center"><img src="Pictures/1 DMA2数据流映射表.png" width="90%"\></p>
+<p align="center"><img src="Pictures/2.png" width="90%"\></p>
 <p align="center" style="color:orange; font-size:14px; color: #999; " >1 DMA2数据流映射表</p>
 
 上表就列出了 DMA2 所有可能的选择情况，来总共 64 种组合，比如本章我们要实现串口1的 DMA 发送，即USART1_TX，就必须选择 DMA2 的数据流 7，通道 4，来进行 DMA 传输。这里注意一下，有的外设（比如 USART1_RX）可能有多个通道可以选择，随意选择一个就可以。
@@ -218,7 +218,9 @@ myDMAprintf(USART1,"usart = %d\tch = %f\r\n",1,1.567);
 ```
 其运行效果如图1所示，第一次仅发送了"us"即被第二次发送覆盖了。
 
-<p align="center"><img src="Pictures/2 运行效果.png" width="90%"\></p>
+(截图插入无法显示，可在`Pictures\3.PNG`中查看)  
+
+<p align="center"><img src="Pictures/3.png" width="50%"\></p>
 <p align="center" style="color:orange; font-size:14px; color: #999; " >2 运行效果</p>
 
 故需设置相应的标志位，对每次发送的状态进行标记，若正在进行传输，则等待，实现如下：
